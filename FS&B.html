@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FS&B Services - Création de sites et bots Discord</title>
+    <style>
+        :root {
+            --primary: #5865F2;
+            --secondary: #57F287;
+            --dark: #23272A;
+            --light: #FFFFFF;
+            --gray: #99AAB5;
+            --danger: #ED4245;
+            --warning: #FEE75C;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        body {
+            background-color: var(--dark);
+            color: var(--light);
+            line-height: 1.6;
+        }
+        
+        header {
+            background-color: var(--primary);
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .tagline {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .admin-login {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+        
+        .hero {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--secondary);
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--primary);
+            color: var(--light);
+            padding: 0.8rem 1.5rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            margin: 0.5rem;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        
+        .btn:hover {
+            background-color: #4752C4;
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background-color: var(--secondary);
+            color: var(--dark);
+        }
+        
+        .btn-secondary:hover {
+            background-color: #4ADF86;
+        }
+        
+        .btn-danger {
+            background-color: var(--danger);
+            color: var(--light);
+        }
+        
+        .btn-danger:hover {
+            background-color: #D13B3E;
+        }
+        
+        .btn-warning {
+            background-color: var(--warning);
+            color: #000;
+        }
+        
+        .btn-warning:hover {
+            background-color: #ECD53F;
+        }
+        
+        .services {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .service-card {
+            background-color: #2C2F33;
+            border-radius: 8px;
+            padding: 1.5rem;
+            flex: 1 1 300px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .service-card h3 {
+            color: var(--secondary);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+        
+        .service-card .icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+        
+        .how-it-works {
+            background-color: #2C2F33;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .how-it-works h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--secondary);
+        }
+        
+        .steps {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 1.5rem;
+        }
+        
+        .step {
+            flex: 1 1 200px;
+            text-align: center;
+            padding: 1rem;
+        }
+        
+        .step-number {
+            background-color: var(--primary);
+            color: var(--light);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-weight: bold;
+        }
+        
+        /* Formulaire de demande */
+        .request-form {
+            background-color: #2C2F33;
+            border-radius: 8px;
+            padding: 2rem;
+            margin: 3rem auto;
+            max-width: 800px;
+        }
+        
+        .request-form h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--secondary);
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border-radius: 4px;
+            border: 1px solid #40444B;
+            background-color: #40444B;
+            color: var(--light);
+            font-size: 1rem;
+        }
+        
+        .form-group textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: #2C2F33;
+            padding: 2rem;
+            border-radius: 8px;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray);
+        }
+        
+        /* Panel admin */
+        #adminPanel {
+            display: none;
+        }
+        
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .admin-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .admin-rank {
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .rank-superadmin {
+            background-color: var(--danger);
+            color: white;
+        }
+        
+        .rank-admin {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .rank-moderator {
+            background-color: var(--warning);
+            color: black;
+        }
+        
+        .requests-list {
+            margin-top: 2rem;
+        }
+        
+        .request-item {
+            background-color: #40444B;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+        
+        .request-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+        
+        .request-actions {
+            margin-top: 1rem;
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .admin-tabs {
+            display: flex;
+            border-bottom: 1px solid #40444B;
+            margin-bottom: 2rem;
+        }
+        
+        .admin-tab {
+            padding: 0.8rem 1.5rem;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+        }
+        
+        .admin-tab.active {
+            border-bottom-color: var(--primary);
+            font-weight: bold;
+        }
+        
+        .admin-tab-content {
+            display: none;
+        }
+        
+        .admin-tab-content.active {
+            display: block;
+        }
+        
+        .admin-list {
+            margin-top: 1rem;
+        }
+        
+        .admin-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background-color: #40444B;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+        }
+        
+        .admin-item-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .admin-item-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        footer {
+            background-color: #2C2F33;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .social-links {
+            margin: 1rem 0;
+        }
+        
+        .social-links a {
+            color: var(--light);
+            margin: 0 0.5rem;
+            font-size: 1.5rem;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .services, .steps {
+                flex-direction: column;
+            }
+            
+            .admin-login {
+                position: static;
+                margin-top: 1rem;
+            }
+            
+            .admin-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .admin-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .admin-item-actions {
+                width: 100%;
+                justify-content: flex-end;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="logo">FS&B Services</div>
+        <div class="tagline">Création de sites web et bots Discord gratuits</div>
+        <button id="adminLoginBtn" class="btn admin-login">Connexion Admin</button>
+    </header>
+    
+    <div class="container">
+        <section class="hero">
+            <h1>Des services professionnels gratuits</h1>
+            <p>Sur notre serveur FS&B, nous offrons gratuitement des services de création de sites web et de bots Discord personnalisés. Il suffit de demander et nous nous occupons du reste !</p>
+            <div>
+                <a href="https://discord.gg/votre-lien" class="btn" target="_blank"><i class="fab fa-discord"></i> Rejoindre le serveur</a>
+                <a href="#request" class="btn btn-secondary">Faire une demande</a>
+            </div>
+        </section>
+        
+        <section id="services" class="services">
+            <div class="service-card">
+                <div class="icon"><i class="fas fa-globe"></i></div>
+                <h3>Site Web</h3>
+                <p>Nous créons pour vous un site web personnalisé selon vos besoins, que ce soit un portfolio, une vitrine ou un blog.</p>
+            </div>
+            
+            <div class="service-card">
+                <div class="icon"><i class="fab fa-discord"></i></div>
+                <h3>Bot Discord</h3>
+                <p>Un bot Discord sur mesure avec les fonctionnalités que vous souhaitez : modération, musique, jeux, etc.</p>
+            </div>
+            
+            <div class="service-card">
+                <div class="icon"><i class="fas fa-headset"></i></div>
+                <h3>Support</h3>
+                <p>Un support réactif pour répondre à toutes vos questions et vous aider dans vos projets.</p>
+            </div>
+        </section>
+        
+        <section class="how-it-works">
+            <h2>Comment ça marche ?</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Faites votre demande</h3>
+                    <p>Utilisez notre formulaire ci-dessous pour décrire votre projet.</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Nous analysons</h3>
+                    <p>Notre équipe étudie votre demande et vous contacte pour plus de détails.</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Développement</h3>
+                    <p>Nous créons votre site web ou bot Discord selon vos spécifications.</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h3>Livraison</h3>
+                    <p>Vous recevez votre création et nous vous accompagnons pour son déploiement.</p>
+                </div>
+            </div>
+        </section>
+        
+        <section id="request" class="request-form">
+            <h2>Faire une demande</h2>
+            <form id="serviceRequestForm">
+                <div class="form-group">
+                    <label for="name">Votre nom</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Votre email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="discord">Votre pseudo Discord (optionnel)</label>
+                    <input type="text" id="discord" name="discord">
+                </div>
+                
+                <div class="form-group">
+                    <label for="service">Service demandé</label>
+                    <select id="service" name="service" required>
+                        <option value="">-- Sélectionnez --</option>
+                        <option value="site-web">Site Web</option>
+                        <option value="bot-discord">Bot Discord</option>
+                        <option value="autre">Autre demande</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="description">Description détaillée de votre demande</label>
+                    <textarea id="description" name="description" required></textarea>
+                </div>
+                
+                <div style="text-align: center;">
+                    <button type="submit" class="btn">Envoyer la demande</button>
+                </div>
+            </form>
+        </section>
+    </div>
+    
+    <!-- Modal de confirmation -->
+    <div id="confirmationModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2 style="color: var(--secondary);">Demande envoyée !</h2>
+            <p id="confirmationMessage">Votre demande a bien été enregistrée. Nous vous contacterons bientôt.</p>
+            <div style="text-align: center; margin-top: 1.5rem;">
+                <button id="closeModalBtn" class="btn">Fermer</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal de connexion admin -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2 style="color: var(--secondary);">Connexion Admin</h2>
+            <form id="adminLoginForm">
+                <div class="form-group">
+                    <label for="adminUsername">Nom d'utilisateur</label>
+                    <input type="text" id="adminUsername" name="adminUsername" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="adminPassword">Mot de passe</label>
+                    <input type="password" id="adminPassword" name="adminPassword" required>
+                </div>
+                
+                <div style="text-align: center; margin-top: 1.5rem;">
+                    <button type="submit" class="btn">Se connecter</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Modal de création de compte admin -->
+    <div id="createAdminModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2 style="color: var(--secondary);">Créer un compte Admin</h2>
+            <form id="createAdminForm">
+                <div class="form-group">
+                    <label for="newAdminUsername">Nom d'utilisateur</label>
+                    <input type="text" id="newAdminUsername" name="newAdminUsername" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="newAdminPassword">Mot de passe</label>
+                    <input type="password" id="newAdminPassword" name="newAdminPassword" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="newAdminRank">Grade</label>
+                    <select id="newAdminRank" name="newAdminRank" required>
+                        <option value="moderator">Modérateur</option>
+                        <option value="admin">Administrateur</option>
+                        <option value="superadmin">Super Admin</option>
+                    </select>
+                </div>
+                
+                <div style="text-align: center; margin-top: 1.5rem;">
+                    <button type="submit" class="btn">Créer le compte</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Panel Admin (caché par défaut) -->
+    <div id="adminPanel" class="container">
+        <div class="admin-header">
+            <div>
+                <h1 style="color: var(--secondary);">Panel d'administration</h1>
+                <div class="admin-info">
+                    <span>Connecté en tant que <strong id="currentAdminUsername"></strong></span>
+                    <span id="currentAdminRank" class="admin-rank rank-moderator">Modérateur</span>
+                </div>
+            </div>
+            <button id="logoutBtn" class="btn btn-danger">Déconnexion</button>
+        </div>
+        
+        <div class="admin-tabs">
+            <div class="admin-tab active" data-tab="requests">Demandes</div>
+            <div class="admin-tab" data-tab="admins" id="adminsTab">Administrateurs</div>
+        </div>
+        
+        <div class="admin-tab-content active" id="requestsTab">
+            <h2>Demandes récentes</h2>
+            <div class="requests-list" id="requestsList">
+                <!-- Les demandes seront ajoutées ici dynamiquement -->
+            </div>
+        </div>
+        
+        <div class="admin-tab-content" id="adminsTabContent">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                <h2>Gestion des administrateurs</h2>
+                <button id="createAdminBtn" class="btn btn-secondary">+ Nouveau compte</button>
+            </div>
+            
+            <div class="admin-list" id="adminList">
+                <!-- La liste des admins sera ajoutée ici dynamiquement -->
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>© 2023 FS&B Services. Tous droits réservés.</p>
+        <div class="social-links">
+            <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
+            <a href="#" target="_blank"><i class="fab fa-github"></i></a>
+            <a href="https://discord.gg/votre-lien" target="_blank"><i class="fab fa-discord"></i></a>
+        </div>
+        <p>Un service gratuit offert par la communauté FS&B</p>
+    </footer>
+
+    <script>
+        // Stockage des demandes (en production, utiliser une base de données)
+        let serviceRequests = JSON.parse(localStorage.getItem('serviceRequests')) || [];
+        
+        // Stockage des comptes admin (en production, utiliser un système d'authentification sécurisé)
+        let adminAccounts = JSON.parse(localStorage.getItem('adminAccounts')) || [
+            {
+                username: "superadmin",
+                password: "fsb123", // À changer en production!
+                rank: "superadmin",
+                createdAt: new Date().toISOString()
+            },
+            {
+                username: "admin",
+                password: "fsb123", // À changer en production!
+                rank: "admin",
+                createdAt: new Date().toISOString()
+            },
+            {
+                username: "modo",
+                password: "fsb123", // À changer en production!
+                rank: "moderator",
+                createdAt: new Date().toISOString()
+            }
+        ];
+        
+        // Utilisateur actuellement connecté
+        let currentAdmin = null;
+        
+        // Éléments du DOM
+        const serviceRequestForm = document.getElementById('serviceRequestForm');
+        const confirmationModal = document.getElementById('confirmationModal');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+        const confirmationMessage = document.getElementById('confirmationMessage');
+        const loginModal = document.getElementById('loginModal');
+        const adminLoginBtn = document.getElementById('adminLoginBtn');
+        const adminLoginForm = document.getElementById('adminLoginForm');
+        const adminPanel = document.getElementById('adminPanel');
+        const requestsList = document.getElementById('requestsList');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const closeModalButtons = document.querySelectorAll('.close-modal');
+        const currentAdminUsername = document.getElementById('currentAdminUsername');
+        const currentAdminRank = document.getElementById('currentAdminRank');
+        const createAdminModal = document.getElementById('createAdminModal');
+        const createAdminForm = document.getElementById('createAdminForm');
+        const createAdminBtn = document.getElementById('createAdminBtn');
+        const adminList = document.getElementById('adminList');
+        const adminsTab = document.getElementById('adminsTab');
+        const adminsTabContent = document.getElementById('adminsTabContent');
+        const requestsTab = document.getElementById('requestsTab');
+        const adminTabs = document.querySelectorAll('.admin-tab');
+        
+        // Initialisation
+        if (!localStorage.getItem('adminAccounts')) {
+            localStorage.setItem('adminAccounts', JSON.stringify(adminAccounts));
+        }
+        
+        // Gestion du formulaire de demande
+        serviceRequestForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const requestData = {
+                id: Date.now(),
+                name: formData.get('name'),
+                email: formData.get('email'),
+                discord: formData.get('discord'),
+                service: formData.get('service'),
+                description: formData.get('description'),
+                date: new Date().toLocaleString(),
+                status: 'Nouvelle',
+                assignedTo: null
+            };
+            
+            // Ajouter à la liste des demandes
+            serviceRequests.push(requestData);
+            localStorage.setItem('serviceRequests', JSON.stringify(serviceRequests));
+            
+            // Envoyer également à Discord via webhook (à implémenter)
+            sendToDiscord(requestData);
+            
+            // Afficher la confirmation
+            confirmationMessage.textContent = `Merci ${requestData.name}, votre demande de ${getServiceName(requestData.service)} a bien été enregistrée. Nous vous contacterons bientôt à l'adresse ${requestData.email}.`;
+            confirmationModal.style.display = 'flex';
+            
+            // Réinitialiser le formulaire
+            this.reset();
+        });
+        
+        // Fonction pour envoyer la demande à Discord via webhook
+        function sendToDiscord(requestData) {
+            // À remplacer par votre webhook Discord
+            const webhookURL = 'https://discord.com/api/webhooks/votre-webhook';
+            
+            const embed = {
+                title: 'Nouvelle demande de service',
+                color: 0x5865F2,
+                fields: [
+                    { name: 'Nom', value: requestData.name, inline: true },
+                    { name: 'Email', value: requestData.email, inline: true },
+                    { name: 'Discord', value: requestData.discord || 'Non fourni', inline: true },
+                    { name: 'Service', value: getServiceName(requestData.service), inline: true },
+                    { name: 'Description', value: requestData.description },
+                    { name: 'Date', value: requestData.date, inline: true },
+                    { name: 'Statut', value: requestData.status, inline: true }
+                ],
+                timestamp: new Date().toISOString()
+            };
+            
+            // En production, décommenter et implémenter l'envoi au webhook
+            /*
+            fetch(webhookURL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    embeds: [embed]
+                })
+            }).catch(error => console.error('Erreur lors de l\'envoi à Discord:', error));
+            */
+        }
+        
+        function getServiceName(serviceKey) {
+            const services = {
+                'site-web': 'Site Web',
+                'bot-discord': 'Bot Discord',
+                'autre': 'Autre demande'
+            };
+            return services[serviceKey] || serviceKey;
+        }
+        
+        function getRankName(rankKey) {
+            const ranks = {
+                'superadmin': 'Super Admin',
+                'admin': 'Administrateur',
+                'moderator': 'Modérateur'
+            };
+            return ranks[rankKey] || rankKey;
+        }
+        
+        function getRankClass(rankKey) {
+            return `rank-${rankKey}`;
+        }
+        
+        // Gestion de la modal de confirmation
+        closeModalBtn.addEventListener('click', function() {
+            confirmationModal.style.display = 'none';
+        });
+        
+        // Gestion de la connexion admin
+        adminLoginBtn.addEventListener('click', function() {
+            loginModal.style.display = 'flex';
+        });
+        
+        adminLoginForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('adminUsername').value;
+            const password = document.getElementById('adminPassword').value;
+            
+            const adminAccount = adminAccounts.find(account => 
+                account.username === username && account.password === password
+            );
+            
+            if (adminAccount) {
+                // Connexion réussie
+                currentAdmin = adminAccount;
+                loginModal.style.display = 'none';
+                document.querySelector('.container').style.display = 'none';
+                document.querySelector('footer').style.display = 'none';
+                adminPanel.style.display = 'block';
+                
+                // Mettre à jour l'interface avec les infos de l'admin
+                currentAdminUsername.textContent = currentAdmin.username;
+                currentAdminRank.textContent = getRankName(currentAdmin.rank);
+                currentAdminRank.className = `admin-rank ${getRankClass(currentAdmin.rank)}`;
+                
+                // Masquer l'onglet Admins si pas superadmin
+                if (currentAdmin.rank !== 'superadmin') {
+                    adminsTab.style.display = 'none';
+                } else {
+                    adminsTab.style.display = 'block';
+                }
+                
+                // Charger les demandes
+                loadRequests();
+                
+                // Charger la liste des admins si superadmin
+                if (currentAdmin.rank === 'superadmin') {
+                    loadAdminList();
+                }
+            } else {
+                alert('Identifiants incorrects');
+            }
+            
+            this.reset();
+        });
+        
+        // Déconnexion
+        logoutBtn.addEventListener('click', function() {
+            currentAdmin = null;
+            document.querySelector('.container').style.display = 'block';
+            document.querySelector('footer').style.display = 'block';
+            adminPanel.style.display = 'none';
+        });
+        
+        // Charger les demandes dans le panel admin
+        function loadRequests() {
+            requestsList.innerHTML = '';
+            
+            if (serviceRequests.length === 0) {
+                requestsList.innerHTML = '<p>Aucune demande pour le moment.</p>';
+                return;
+            }
+            
+            serviceRequests.forEach(request => {
+                const requestItem = document.createElement('div');
+                requestItem.className = 'request-item';
+                
+                let assignButton = '';
+                let statusButtons = '';
+                
+                if (currentAdmin.rank === 'superadmin' || currentAdmin.rank === 'admin') {
+                    assignButton = `<button class="btn btn-warning" onclick="assignRequest(${request.id}, '${currentAdmin.username}')">S'assigner</button>`;
+                    
+                    statusButtons = `
+                        <button class="btn" onclick="updateRequestStatus(${request.id}, 'En cours')">En cours</button>
+                        <button class="btn btn-secondary" onclick="updateRequestStatus(${request.id}, 'Terminé')">Terminé</button>
+                    `;
+                }
+                
+                if (currentAdmin.rank === 'superadmin') {
+                    statusButtons += `<button class="btn btn-danger" onclick="deleteRequest(${request.id})">Supprimer</button>`;
+                }
+                
+                requestItem.innerHTML = `
+                    <div class="request-meta">
+                        <span>#${request.id}</span>
+                        <span>${request.date}</span>
+                    </div>
+                    <h3>${getServiceName(request.service)} - ${request.name}</h3>
+                    <p><strong>Email:</strong> ${request.email}</p>
+                    ${request.discord ? `<p><strong>Discord:</strong> ${request.discord}</p>` : ''}
+                    <p><strong>Description:</strong> ${request.description}</p>
+                    <p><strong>Statut:</strong> ${request.status}</p>
+                    ${request.assignedTo ? `<p><strong>Assigné à:</strong> ${request.assignedTo}</p>` : ''}
+                    <div class="request-actions">
+                        ${assignButton}
+                        ${statusButtons}
+                    </div>
+                `;
+                requestsList.appendChild(requestItem);
+            });
+        }
+        
+        // Charger la liste des admins
+        function loadAdminList() {
+            adminList.innerHTML = '';
+            
+            adminAccounts.forEach(admin => {
+                const adminItem = document.createElement('div');
+                adminItem.className = 'admin-item';
+                
+                let actions = '';
+                
+                if (currentAdmin.rank === 'superadmin' && admin.username !== currentAdmin.username) {
+                    actions = `
+                        <div class="admin-item-actions">
+                            <button class="btn btn-danger" onclick="deleteAdmin('${admin.username}')">Supprimer</button>
+                        </div>
+                    `;
+                }
+                
+                adminItem.innerHTML = `
+                    <div class="admin-item-info">
+                        <span><strong>${admin.username}</strong></span>
+                        <span class="admin-rank ${getRankClass(admin.rank)}">${getRankName(admin.rank)}</span>
+                        <span>Créé le: ${new Date(admin.createdAt).toLocaleDateString()}</span>
+                    </div>
+                    ${actions}
+                `;
+                adminList.appendChild(adminItem);
+            });
+        }
+        
+        // Gestion des onglets admin
+        adminTabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                const tabId = this.getAttribute('data-tab');
+                
+                // Désactiver tous les onglets
+                adminTabs.forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.admin-tab-content').forEach(c => c.classList.remove('active'));
+                
+                // Activer l'onglet sélectionné
+                this.classList.add('active');
+                document.getElementById(`${tabId}Tab`).classList.add('active');
+            });
+        });
+        
+        // Gestion de la création de compte admin
+        createAdminBtn.addEventListener('click', function() {
+            if (currentAdmin.rank === 'superadmin') {
+                createAdminModal.style.display = 'flex';
+            }
+        });
+        
+        createAdminForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('newAdminUsername').value;
+            const password = document.getElementById('newAdminPassword').value;
+            const rank = document.getElementById('newAdminRank').value;
+            
+            // Vérifier si l'utilisateur existe déjà
+            if (adminAccounts.some(account => account.username === username)) {
+                alert('Ce nom d\'utilisateur est déjà pris');
+                return;
+            }
+            
+            // Créer le nouveau compte
+            const newAdmin = {
+                username,
+                password,
+                rank,
+                createdAt: new Date().toISOString()
+            };
+            
+            adminAccounts.push(newAdmin);
+            localStorage.setItem('adminAccounts', JSON.stringify(adminAccounts));
+            
+            // Recharger la liste
+            loadAdminList();
+            
+            // Fermer la modal
+            createAdminModal.style.display = 'none';
+            this.reset();
+            
+            alert(`Le compte ${username} a été créé avec succès avec le grade ${getRankName(rank)}`);
+        });
+        
+        // Fermer les modales en cliquant sur le bouton ×
+        closeModalButtons.forEach(btn => {
+            btn.addEventListener('click', function() {
+                this.closest('.modal').style.display = 'none';
+            });
+        });
+        
+        // Fermer les modales en cliquant à l'extérieur
+        window.addEventListener('click', function(e) {
+            if (e.target.classList.contains('modal')) {
+                e.target.style.display = 'none';
+            }
+        });
+        
+        // Fonctions globales pour le panel admin
+        window.updateRequestStatus = function(id, status) {
+            const requestIndex = serviceRequests.findIndex(req => req.id === id);
+            if (requestIndex !== -1) {
+                serviceRequests[requestIndex].status = status;
+                localStorage.setItem('serviceRequests', JSON.stringify(serviceRequests));
+                loadRequests();
+                
+                // Envoyer la mise à jour à Discord (à implémenter)
+            }
+        };
+        
+        window.assignRequest = function(id, adminUsername) {
+            const requestIndex = serviceRequests.findIndex(req => req.id === id);
+            if (requestIndex !== -1) {
+                serviceRequests[requestIndex].assignedTo = adminUsername;
+                serviceRequests[requestIndex].status = 'En cours';
+                localStorage.setItem('serviceRequests', JSON.stringify(serviceRequests));
+                loadRequests();
+            }
+        };
+        
+        window.deleteRequest = function(id) {
+            if (confirm('Voulez-vous vraiment supprimer cette demande ?')) {
+                serviceRequests = serviceRequests.filter(req => req.id !== id);
+                localStorage.setItem('serviceRequests', JSON.stringify(serviceRequests));
+                loadRequests();
+            }
+        };
+        
+        window.deleteAdmin = function(username) {
+            if (confirm(`Voulez-vous vraiment supprimer le compte ${username} ?`)) {
+                adminAccounts = adminAccounts.filter(admin => admin.username !== username);
+                localStorage.setItem('adminAccounts', JSON.stringify(adminAccounts));
+                loadAdminList();
+            }
+        };
+    </script>
+</body>
+</html>
